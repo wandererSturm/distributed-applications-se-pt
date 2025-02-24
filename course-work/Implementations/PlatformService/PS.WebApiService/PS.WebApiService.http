@@ -1,0 +1,6 @@
+@PS.WebApiService_HostAddress = http://localhost:5064
+
+GET {{PS.WebApiService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
