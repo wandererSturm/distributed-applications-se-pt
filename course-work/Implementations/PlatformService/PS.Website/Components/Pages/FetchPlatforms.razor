@@ -1,0 +1,57 @@
+﻿@page "/fetchplatforms"
+@inject GrpcChannel Channel
+@using Google.Protobuf.WellKnownTypes
+@using Grpc.Net.Client
+@using Platforms.gRPC
+<h1>Platforms</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (platforms == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ReleaseDate</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Version</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var platform in platforms)
+            {
+                <tr>
+                    <td>@platform.ReleaseDate.ToString()</td>
+                    <td>@platform.Name</td>
+                    <td>@platform.Description</td>                    
+                    <td>@platform.Version</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+ <div>
+     <img src="/grpc-logo.png" alt="gRPC logo" />
+     <p>
+         Data fetched from a gRPC service.
+     </p>
+ </div>
+
+@code {
+    private IList<Platform>? platforms;
+
+    protected override async Task OnInitializedAsync()
+    {
+        //var client = new WeatherForecasts.WeatherForecastsClient(Channel);
+
+        var client = new PlatformsService.PlatformsServiceClient(Channel);
+        platforms = (await client.GetPlatformsAsync(new PlatformRequest() { Id = 0})).Platforms;
+        // forecasts = (await client.GetWeatherForecastsAsync(new Empty())).Forecasts;
+    }
+}

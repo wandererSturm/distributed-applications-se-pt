@@ -16,6 +16,9 @@ using PS.Data.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.ResponseCompression;
+using PS.WebApiService.Services;
+using Microsoft.AspNetCore.Builder;
 namespace PS.WebApiService
 {
     public class Program
@@ -36,6 +39,7 @@ namespace PS.WebApiService
 
 
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddGrpc(cfg => cfg.EnableDetailedErrors = true);
 
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionString");
             var connectionStringUsers = builder.Configuration.GetConnectionString("UsersConnectionString");
@@ -138,13 +142,16 @@ namespace PS.WebApiService
             }
 
             app.UseHttpsRedirection();
-
+            app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
             
             app.MapControllers();
+            app.UseGrpcWeb();
 
-           // app.MapHealthChecks("/healthz");
+            app.MapGrpcService<PlatformDataService>().EnableGrpcWeb();
+            
+            // app.MapHealthChecks("/healthz");
             app.MapHealthChecks("/hc", new HealthCheckOptions()
             {
                 Predicate = _ => true,

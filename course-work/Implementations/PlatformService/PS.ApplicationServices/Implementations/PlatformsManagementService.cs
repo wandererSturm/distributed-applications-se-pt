@@ -109,7 +109,7 @@ namespace PS.ApplicationServices.Implementations
                 Name = platform.Name,
                 Description = platform.Description,
                 Id = platform.Id,
-                PlatformOperatingSystem = platform.SupportedOperatingSystems.Select(x=> x.Id ),
+                PlatformOperatingSystem = platform.SupportedOperatingSystems?.Select(x=> x.Id)?? new List<int>(),
                 Version = platform.Version,
                 ReleaseDate = platform.ReleaseDate,
             });           

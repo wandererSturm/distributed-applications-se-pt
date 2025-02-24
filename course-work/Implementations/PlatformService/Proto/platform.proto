@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+option csharp_namespace = "Platforms.gRPC";
+
+service PlatformsService {
+  rpc GetPlatforms (PlatformRequest) returns (GetPlatformResponse);
+}
+
+message GetPlatformResponse {
+  repeated Platform platforms = 1;
+}
+
+message PlatformRequest{
+	int32 id = 1;
+}
+
+message Platform {
+  int32 statuscode = 1;
+  string message = 2;
+  int32 id = 3;
+  string name = 4;
+  string description = 5;
+  string version = 6;
+  google.protobuf.Timestamp releaseDate = 7;
+  repeated int32 platform_operatingSystem = 8;
+}
