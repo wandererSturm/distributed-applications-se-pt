@@ -2,6 +2,9 @@ using Grpc.Net.Client.Web;
 using Grpc.Net.Client;
 using Microsoft.AspNetCore.Components;
 using PS.Website.Components;
+using Blazorise;
+using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
 
 namespace PS.Website
 {
@@ -37,6 +40,14 @@ namespace PS.Website
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
 
+            builder.Services.AddServerSideBlazor();
+            builder.Services
+            .AddBlazorise(options =>
+            {
+                options.Immediate = true;
+            })
+            .AddBootstrapProviders()
+            .AddFontAwesomeIcons();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

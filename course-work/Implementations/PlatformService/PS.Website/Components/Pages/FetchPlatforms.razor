@@ -1,5 +1,5 @@
 ﻿@page "/fetchplatforms"
-@inject GrpcChannel Channel
+ 
 @using Google.Protobuf.WellKnownTypes
 @using Grpc.Net.Client
 @using Platforms.gRPC
@@ -7,51 +7,21 @@
 
 <p>This component demonstrates fetching data from the server.</p>
 
-@if (platforms == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ReleaseDate</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Version</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var platform in platforms)
-            {
-                <tr>
-                    <td>@platform.ReleaseDate.ToString()</td>
-                    <td>@platform.Name</td>
-                    <td>@platform.Description</td>                    
-                    <td>@platform.Version</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
 
- <div>
-     <img src="/grpc-logo.png" alt="gRPC logo" />
-     <p>
-         Data fetched from a gRPC service.
-     </p>
- </div>
+<DataGrid @ref="MyDataGrid"
+          TItem="Platform"
+          Data="_platforms" ShowPager PageSize="20"
+          TotalItems="_platformsCount" ReadData="OnReadData"
+          FixedHeader=true
+          FixedHeaderDataGridHeight="60vh"
+          FixedHeaderDataGridMaxHeight="1200px"
+          CommandMode="DataGridCommandMode.ButtonRow">
+    <DataGridColumns>
+        <DataGridColumn Field="Name" Caption="Name" />
+        <DataGridColumn Field="Description" Caption="Description" />
+        <DataGridColumn Field="Version" Caption="Version" />
+        <DataGridColumn Field="ReleaseDate" Caption="ReleaseDate" />
+        <DataGridColumn Field="PlatformOperatingSystem" Caption="PlatformOperatingSystem" />
+    </DataGridColumns>
+</DataGrid>
 
-@code {
-    private IList<Platform>? platforms;
-
-    protected override async Task OnInitializedAsync()
-    {
-        //var client = new WeatherForecasts.WeatherForecastsClient(Channel);
-
-        var client = new PlatformsService.PlatformsServiceClient(Channel);
-        platforms = (await client.GetPlatformsAsync(new PlatformRequest() { Id = 0})).Platforms;
-        // forecasts = (await client.GetWeatherForecastsAsync(new Empty())).Forecasts;
-    }
-}
