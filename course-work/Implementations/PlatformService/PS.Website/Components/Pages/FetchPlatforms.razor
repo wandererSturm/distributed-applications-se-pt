@@ -1,27 +1,41 @@
 ﻿@page "/fetchplatforms"
- 
-@using Google.Protobuf.WellKnownTypes
-@using Grpc.Net.Client
 @using Platforms.gRPC
+<PageTitle>Platforms</PageTitle>
+
 <h1>Platforms</h1>
+@if (_platforms == null)
+{
+    <p><em>Loading...</em></p>
+}else{
+    <Grid TItem="Platform"
+          AllowFiltering="true"
+          AllowPaging="true"
+          AllowSorting="true"
+          AutoHidePaging="true"
+          Class="table table-hover table-bordered table-striped"
+          DataProvider="PlatformsDataProvider"
+          PageSize="3"
+          PageSizeSelectorVisible="true"
+          PageSizeSelectorItems="@(new int[] { 5,2,2 })"
+          Responsive="true">
 
-<p>This component demonstrates fetching data from the server.</p>
+        <GridColumns>
+            <GridColumn TItem="Platform" HeaderText="Id" PropertyName="Id" SortKeySelector="item => item.Id">
+                @context.Id
+            </GridColumn>
+            <GridColumn TItem="Platform" HeaderText="Platform Name" PropertyName="Name" SortKeySelector="item => item.Name">
+                @context.Name
+            </GridColumn>
+            <GridColumn TItem="Platform" HeaderText="Description" PropertyName="Designation" SortKeySelector="item => item.Description">
+                @context.Description
+            </GridColumn>
+            <GridColumn TItem="Platform" HeaderText="Version" PropertyName="Version" SortKeySelector="item => item.Version">
+                @context.Version
+            </GridColumn>
+            <GridColumn TItem="Platform" HeaderText="ReleaseDate" PropertyName="ReleaseDate" SortKeySelector="item => item.ReleaseDate.ToDateTime().ToString()">
+                @context.ReleaseDate
+            </GridColumn>
+        </GridColumns>
 
-
-<DataGrid @ref="MyDataGrid"
-          TItem="Platform"
-          Data="_platforms" ShowPager PageSize="20"
-          TotalItems="_platformsCount" ReadData="OnReadData"
-          FixedHeader=true
-          FixedHeaderDataGridHeight="60vh"
-          FixedHeaderDataGridMaxHeight="1200px"
-          CommandMode="DataGridCommandMode.ButtonRow">
-    <DataGridColumns>
-        <DataGridColumn Field="Name" Caption="Name" />
-        <DataGridColumn Field="Description" Caption="Description" />
-        <DataGridColumn Field="Version" Caption="Version" />
-        <DataGridColumn Field="ReleaseDate" Caption="ReleaseDate" />
-        <DataGridColumn Field="PlatformOperatingSystem" Caption="PlatformOperatingSystem" />
-    </DataGridColumns>
-</DataGrid>
-
+    </Grid>
+}

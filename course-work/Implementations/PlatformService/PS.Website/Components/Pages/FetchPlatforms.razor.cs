@@ -1,4 +1,5 @@
-﻿using Blazorise.DataGrid;
+﻿//using Blazorise.DataGrid;
+using BlazorBootstrap;
 using Grpc.Net.Client;
 using Microsoft.AspNetCore.Components;
 using Platforms.gRPC;
@@ -12,35 +13,49 @@ namespace PS.Website.Components.Pages
         public required GrpcChannel Channel { get; set; }
         private List<Platform>? _platforms;
         private int _platformsCount = 0;
-        private DataGrid<Platform>? MyDataGrid;
+        //private DataGrid<Platform>? MyDataGrid;
 
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            (_platforms, _platformsCount) = await GetPlatformsAsync(count: 20, offset: 0);
+            (_platforms, _platformsCount) = await GetPlatformsAsync(count: 10, offset: 0);
         }
 
 
-        private async Task OnReadData(DataGridReadDataEventArgs<Platform> args)
+        private async Task<GridDataProviderResult<Platform>> PlatformsDataProvider(GridDataProviderRequest<Platform> request)
         {
-            int limit = args.PageSize;
-            int offset = (args.Page - 1) * limit;
-
-            if (limit <= 0)
+            if (_platforms == null)
             {
-                return;
+                (_platforms, _platformsCount) = await GetPlatformsAsync(count: 10, offset: 0);
             }
-            Console.WriteLine($"OnReadLine invoked with params count: {args.Page - 1}, offset: {args.PageSize}");
-           (_platforms,_platformsCount )= await GetPlatformsAsync(count: limit, offset: offset);
+            return await Task.FromResult(request.ApplyTo(_platforms));
         }
+
+        //private async Task OnReadData(DataGridReadDataEventArgs<Platform> args)
+        //{
+        //    int limit = args.PageSize;
+        //    int offset = (args.Page - 1) * limit;
+
+        //    if (limit <= 0)
+        //    {
+        //        return;
+        //    }
+        //    Console.WriteLine($"OnReadLine invoked with params count: {args.Page - 1}, offset: {args.PageSize}");
+        //   (_platforms,_platformsCount )= await GetPlatformsAsync(count: limit, offset: offset);
+        //}
 
         private async Task<(List<Platform>, int totalCount)> GetPlatformsAsync(int count, int offset)
         {
             var client = new PlatformsService.PlatformsServiceClient(Channel);
-            List<Platform> platforms = (await client.GetPlatformsAsync(new PlatformRequest() { Id = 0 })).Platforms.ToList();
-            int totalCount = platforms.Count;
+            List<Platform> platforms = (await client.GetPlatformsAsync(new PlatformRequest()
+            {
+                Id = 0,
+                Count = 0,
+                Offset = 0
+            })).Platforms.ToList();
+            int totalCount = 40;
             return (platforms, totalCount);
-            
+
         }
     }
 }

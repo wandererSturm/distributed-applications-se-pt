@@ -110,7 +110,7 @@ namespace PS.ApplicationServices.Implementations
                 Description = platform.Description,
                 Id = platform.Id,
                 PlatformOperatingSystem = platform.SupportedOperatingSystems?.Select(x=> x.Id)?? new List<int>(),
-                Version = platform.Version,
+                Version = platform.Version ?? "",
                 ReleaseDate = platform.ReleaseDate,
             });           
             return response;
@@ -129,12 +129,31 @@ namespace PS.ApplicationServices.Implementations
                     Name = platform.Name,
                     Description = platform.Description,
                     Id = platform.Id,
-                    PlatformOperatingSystem = platform.SupportedOperatingSystems.Select(x => x.Id),
-                    Version= platform.Version,
+                    PlatformOperatingSystem = platform.SupportedOperatingSystems?.Select(x => x.Id) ?? new List<int>(),
+                    Version= platform.Version ?? "",
                     ReleaseDate = platform.ReleaseDate,                   
                 });
             }
 
+            return response;
+        }
+
+        public async Task<GetPlatformResponse> GetPlatformsByOffsetAsync(GetPlatformRequestOffset request)
+        {
+            GetPlatformResponse response = new() { Platforms = new() };
+            var platforms = await _unitOfWork.Platforms.GetByOffsetAsync(request.Offset, request.Count);
+            foreach (var platform in platforms)
+            {
+                response.Platforms.Add(new()
+                {
+                    Name = platform.Name,
+                    Description = platform.Description,
+                    Id = platform.Id,
+                    PlatformOperatingSystem = platform.SupportedOperatingSystems?.Select(x => x.Id) ?? new List<int>(),
+                    Version = platform.Version ?? "",
+                    ReleaseDate = platform.ReleaseDate,
+                });
+            }
             return response;
         }
     }

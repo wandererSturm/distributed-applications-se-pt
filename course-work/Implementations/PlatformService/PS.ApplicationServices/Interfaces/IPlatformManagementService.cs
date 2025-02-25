@@ -13,6 +13,7 @@ namespace PS.ApplicationServices.Interfaces
     public interface IPlatformManagementService
     {
         Task<GetPlatformResponse> GetPlatformsAsync(GetPlatformRequest request);
+        Task<GetPlatformResponse> GetPlatformsByOffsetAsync(GetPlatformRequestOffset request);
         Task<GetPlatformResponse> GetPlatformByIdAsync(GetPlatformRequest request);
         Task<CreatePlatformResponse> CreatePlatformAsync(CreatePlatformRequest request);
         Task<DeletePlatformResponse> DeletePlatformAsync(DeletePlatformRequest request);

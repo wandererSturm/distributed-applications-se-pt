@@ -7,10 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Blazorise" Version="1.7.4" />
-    <PackageReference Include="Blazorise.Bootstrap" Version="1.7.4" />
-    <PackageReference Include="Blazorise.DataGrid" Version="1.7.4" />
-    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.7.4" />
+    <PackageReference Include="Blazor.Bootstrap" Version="3.3.1" />
     <PackageReference Include="Google.Protobuf" Version="3.29.3" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.49.0" />
     <PackageReference Include="Grpc.Net.Client" Version="2.67.0" />

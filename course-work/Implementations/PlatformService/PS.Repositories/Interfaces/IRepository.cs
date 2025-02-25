@@ -11,7 +11,8 @@ namespace PS.Repositories.Interfaces
     public interface IRepository<T> where T : BaseEntity
     {
 
-        Task<IEnumerable<T>> GetAllAsync();        
+        Task<IEnumerable<T>> GetAllAsync();
+        Task<IEnumerable<T>> GetByOffsetAsync(int offset, int count);
 
         Task<T> GetByIdAsync(int id);
 

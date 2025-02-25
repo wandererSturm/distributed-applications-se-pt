@@ -126,5 +126,10 @@ namespace PS.Repositories.Implementations
         {
             return await this.DbSet.Where(i => i.Name == name).FirstOrDefaultAsync() != null;
         }
+
+        public async Task<IEnumerable<T>> GetByOffsetAsync(int offset, int count)
+        {
+            return await this.DbSet.Skip(offset).Take(count).OrderByDescending(a => a.Id).AsQueryable().ToListAsync();            
+        }
     }
 }

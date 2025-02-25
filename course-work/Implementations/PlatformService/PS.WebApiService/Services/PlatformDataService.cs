@@ -15,10 +15,13 @@ namespace PS.WebApiService.Services
         public override async Task<GetPlatformResponse> GetPlatforms(PlatformRequest request, ServerCallContext context)
         {
             PS.ApplicationServices.Messaging.Responses.Platforms.GetPlatformResponse platformResponse = null;
-            if (request.Id == 0)
+            if (request.Id == 0 && request.Count == 0)
             {
                 platformResponse =  await _platformService.GetPlatformsAsync(new(-1));
                 
+            }else if (request.Count != 0 )
+            {
+                platformResponse = await _platformService.GetPlatformsByOffsetAsync(new(request.Offset, request.Count));
             }
             else {
                 platformResponse = await _platformService.GetPlatformByIdAsync(new(request.Id));
