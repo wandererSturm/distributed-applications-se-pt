@@ -14,5 +14,6 @@ namespace PS.Infrastructure.Messaging.Responses.OperatingSystem
         public required string Version { get; set; }
         public required bool IsLTS { get; set; }
         public required string PacketManager { get; set; }
+        public List<int> Platforms { get; set; }
     }
 }

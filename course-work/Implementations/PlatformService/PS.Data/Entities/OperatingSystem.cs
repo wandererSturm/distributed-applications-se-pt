@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace PS.Data.Entities
 {
-    public class OperatingSystem:BaseEntity
+    public class OperatingSystem : BaseEntity
     {
         public required string Version { get; set; }
         public required bool IsLTS { get; set; }
         public required string PacketManager { get; set; }
+        public required List<Platform> Platforms { get; set;}
     }
 }

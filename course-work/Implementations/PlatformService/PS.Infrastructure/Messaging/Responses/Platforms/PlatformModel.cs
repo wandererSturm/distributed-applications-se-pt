@@ -13,6 +13,6 @@ namespace PS.ApplicationServices.Messaging.Responses.Platforms
         public string? Description { get; set; }
         public string? Version { get; set; }
         public DateTime? ReleaseDate { get; set; }
-        public required IEnumerable<int> PlatformOperatingSystem { get; set; }
+        public required int PlatformOperatingSystem { get; set; }
     }
 }

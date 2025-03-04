@@ -13,19 +13,20 @@ namespace PS.WebApiService.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Platforms",
+                name: "Buses",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Version = table.Column<string>(type: "text", nullable: true),
-                    ReleaseDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    IsExternal = table.Column<bool>(type: "boolean", nullable: false),
+                    AttachedHW = table.Column<string>(type: "text", nullable: true),
+                    IsConnectionRequired = table.Column<bool>(type: "boolean", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Platforms", x => x.Id);
+                    table.PrimaryKey("PK_Buses", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -37,17 +38,34 @@ namespace PS.WebApiService.Migrations
                     Version = table.Column<string>(type: "text", nullable: false),
                     IsLTS = table.Column<bool>(type: "boolean", nullable: false),
                     PacketManager = table.Column<string>(type: "text", nullable: false),
-                    PlatformId = table.Column<int>(type: "integer", nullable: true),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OperatingSystems", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Platforms",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Version = table.Column<string>(type: "text", nullable: true),
+                    ReleaseDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    OperatingSystemr = table.Column<int>(type: "integer", nullable: false),
+                    OperatingSystemId = table.Column<int>(type: "integer", nullable: true),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Platforms", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OperatingSystems_Platforms_PlatformId",
-                        column: x => x.PlatformId,
-                        principalTable: "Platforms",
+                        name: "FK_Platforms_OperatingSystems_OperatingSystemId",
+                        column: x => x.OperatingSystemId,
+                        principalTable: "OperatingSystems",
                         principalColumn: "Id");
                 });
 
@@ -59,12 +77,19 @@ namespace PS.WebApiService.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     PlatformId = table.Column<int>(type: "integer", nullable: false),
                     operatingSystemId = table.Column<int>(type: "integer", nullable: false),
+                    BusId = table.Column<int>(type: "integer", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Commands", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Commands_Buses_BusId",
+                        column: x => x.BusId,
+                        principalTable: "Buses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Commands_OperatingSystems_operatingSystemId",
                         column: x => x.operatingSystemId,
@@ -79,38 +104,15 @@ namespace PS.WebApiService.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Buses",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    IsExternal = table.Column<bool>(type: "boolean", nullable: false),
-                    AttachedHW = table.Column<string>(type: "text", nullable: true),
-                    IsConnectionRequired = table.Column<bool>(type: "boolean", nullable: false),
-                    CommandId = table.Column<int>(type: "integer", nullable: true),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Buses", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Buses_Commands_CommandId",
-                        column: x => x.CommandId,
-                        principalTable: "Commands",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Buses_CommandId",
-                table: "Buses",
-                column: "CommandId");
-
             migrationBuilder.CreateIndex(
                 name: "IX_Buses_Id",
                 table: "Buses",
                 column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Commands_BusId",
+                table: "Commands",
+                column: "BusId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Commands_Id",
@@ -133,30 +135,30 @@ namespace PS.WebApiService.Migrations
                 column: "Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OperatingSystems_PlatformId",
-                table: "OperatingSystems",
-                column: "PlatformId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Platforms_Id",
                 table: "Platforms",
                 column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Platforms_OperatingSystemId",
+                table: "Platforms",
+                column: "OperatingSystemId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Buses");
-
-            migrationBuilder.DropTable(
                 name: "Commands");
 
             migrationBuilder.DropTable(
-                name: "OperatingSystems");
+                name: "Buses");
 
             migrationBuilder.DropTable(
                 name: "Platforms");
+
+            migrationBuilder.DropTable(
+                name: "OperatingSystems");
         }
     }
 }

@@ -40,7 +40,7 @@ namespace PS.ApplicationServices.Implementations
                 IsLTS = request.OperatingSystem.IsLTS,
                 PacketManager = request.OperatingSystem.PacketManager,
                 Version = request.OperatingSystem.Version,
-
+                Platforms = new List<PS.Data.Entities.Platform>()
             };
             _unitOfWork.OperatingSystems.Insert(newOp);
             await _unitOfWork.SaveChangesAsync();

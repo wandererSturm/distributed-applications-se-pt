@@ -41,25 +41,7 @@ namespace PS.ApplicationServices.Implementations
                     StatusCode = BusinessStatusCodeEnum.MissingObject
                 };
             }
-
-            List<PS.Data.Entities.OperatingSystem> supportedOperatingSystems = new();            
-            foreach (var opID in request.Platform.PlatformOperatingSystem)
-            {
-                var systemid = await _unitOfWork.OperatingSystems.GetByIdAsync(opID);
-                if(systemid == null)
-                {
-                    return new()
-                    {
-                        Id = opID,
-                        Message = $"Wrong Operating System id {opID}",
-                        StatusCode = BusinessStatusCodeEnum.MissingObject
-                    };
-                    
-
-                }
-                supportedOperatingSystems.Add(systemid);
-         
-            }
+   
 
             var newPlatform = new Platform()
             {
@@ -67,7 +49,7 @@ namespace PS.ApplicationServices.Implementations
                 Description = request.Platform.Description,
                 ReleaseDate = request.Platform.ReleaseDate,
                 Version = request.Platform.Version,
-                SupportedOperatingSystems = supportedOperatingSystems //request.Platform.PlatformOperatingSystem,
+                OperatingSystemr = request.Platform.PlatformOperatingSystem //request.Platform.PlatformOperatingSystem,
 
             };
             _unitOfWork.Platforms.Insert(newPlatform);
@@ -109,7 +91,7 @@ namespace PS.ApplicationServices.Implementations
                 Name = platform.Name,
                 Description = platform.Description,
                 Id = platform.Id,
-                PlatformOperatingSystem = platform.SupportedOperatingSystems?.Select(x=> x.Id)?? new List<int>(),
+                PlatformOperatingSystem = platform.OperatingSystemr,
                 Version = platform.Version ?? "",
                 ReleaseDate = platform.ReleaseDate,
             });           
@@ -129,7 +111,7 @@ namespace PS.ApplicationServices.Implementations
                     Name = platform.Name,
                     Description = platform.Description,
                     Id = platform.Id,
-                    PlatformOperatingSystem = platform.SupportedOperatingSystems?.Select(x => x.Id) ?? new List<int>(),
+                    PlatformOperatingSystem = platform.OperatingSystemr,
                     Version= platform.Version ?? "",
                     ReleaseDate = platform.ReleaseDate,                   
                 });
@@ -149,7 +131,7 @@ namespace PS.ApplicationServices.Implementations
                     Name = platform.Name,
                     Description = platform.Description,
                     Id = platform.Id,
-                    PlatformOperatingSystem = platform.SupportedOperatingSystems?.Select(x => x.Id) ?? new List<int>(),
+                    PlatformOperatingSystem = platform.OperatingSystemr,
                     Version = platform.Version ?? "",
                     ReleaseDate = platform.ReleaseDate,
                 });

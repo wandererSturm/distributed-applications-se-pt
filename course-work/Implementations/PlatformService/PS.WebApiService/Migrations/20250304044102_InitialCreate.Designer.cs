@@ -12,8 +12,8 @@ using PS.Data.Contexts;
 namespace PS.WebApiService.Migrations
 {
     [DbContext(typeof(PlatformDbContext))]
-    [Migration("20250216085327_BaseEntity")]
-    partial class BaseEntity
+    [Migration("20250304044102_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -104,7 +104,7 @@ namespace PS.WebApiService.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsStable")
+                    b.Property<bool>("IsLTS")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
@@ -141,7 +141,10 @@ namespace PS.WebApiService.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("OperatingSystemId")
+                    b.Property<int?>("OperatingSystemId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("OperatingSystemr")
                         .HasColumnType("integer");
 
                     b.Property<DateTime?>("ReleaseDate")
@@ -188,13 +191,14 @@ namespace PS.WebApiService.Migrations
 
             modelBuilder.Entity("PS.Data.Entities.Platform", b =>
                 {
-                    b.HasOne("PS.Data.Entities.OperatingSystem", "OperatingSystem")
-                        .WithMany()
-                        .HasForeignKey("OperatingSystemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("PS.Data.Entities.OperatingSystem", null)
+                        .WithMany("Platforms")
+                        .HasForeignKey("OperatingSystemId");
+                });
 
-                    b.Navigation("OperatingSystem");
+            modelBuilder.Entity("PS.Data.Entities.OperatingSystem", b =>
+                {
+                    b.Navigation("Platforms");
                 });
 #pragma warning restore 612, 618
         }

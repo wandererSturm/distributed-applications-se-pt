@@ -101,7 +101,7 @@ namespace PS.WebApiService.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsStable")
+                    b.Property<bool>("IsLTS")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
@@ -112,9 +112,6 @@ namespace PS.WebApiService.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("PlatformId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Version")
                         .IsRequired()
                         .HasColumnType("text");
@@ -122,8 +119,6 @@ namespace PS.WebApiService.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("Id");
-
-                    b.HasIndex("PlatformId");
 
                     b.ToTable("OperatingSystems");
                 });
@@ -143,6 +138,12 @@ namespace PS.WebApiService.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int?>("OperatingSystemId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("OperatingSystemr")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime?>("ReleaseDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -152,6 +153,8 @@ namespace PS.WebApiService.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("Id");
+
+                    b.HasIndex("OperatingSystemId");
 
                     b.ToTable("Platforms");
                 });
@@ -183,16 +186,16 @@ namespace PS.WebApiService.Migrations
                     b.Navigation("operatingSystem");
                 });
 
-            modelBuilder.Entity("PS.Data.Entities.OperatingSystem", b =>
-                {
-                    b.HasOne("PS.Data.Entities.Platform", null)
-                        .WithMany("OperatingSystem")
-                        .HasForeignKey("PlatformId");
-                });
-
             modelBuilder.Entity("PS.Data.Entities.Platform", b =>
                 {
-                    b.Navigation("OperatingSystem");
+                    b.HasOne("PS.Data.Entities.OperatingSystem", null)
+                        .WithMany("Platforms")
+                        .HasForeignKey("OperatingSystemId");
+                });
+
+            modelBuilder.Entity("PS.Data.Entities.OperatingSystem", b =>
+                {
+                    b.Navigation("Platforms");
                 });
 #pragma warning restore 612, 618
         }

@@ -10,6 +10,6 @@ namespace PS.Data.Entities
     {
         public required Platform Platform { get; set; }
         public required OperatingSystem operatingSystem { get; set; }
-        public required List<Bus> Bus { get; set; }
+        public required Bus Bus { get; set; }
     }
 }

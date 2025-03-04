@@ -27,5 +27,5 @@ message Platform {
   string description = 5;
   string version = 6;
   google.protobuf.Timestamp releaseDate = 7;
-  repeated int32 platform_operatingSystem = 8;
+  int32 platform_operatingSystem = 8;
 }

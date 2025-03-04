@@ -47,7 +47,7 @@ namespace PS.WebApiService.Services
                         Name = platform.Name,
                         Description = platform.Description,
                         ReleaseDate = Google.Protobuf.WellKnownTypes.Timestamp.FromDateTime(platform.ReleaseDate ?? DateTime.Now),
-                        PlatformOperatingSystem = { platform.PlatformOperatingSystem?.ToList()?? new List<int>() },
+                        PlatformOperatingSystem = platform.PlatformOperatingSystem,
                         Version = platform.Version?? "",
                         Message = "",
                         Statuscode = (int)BusinessStatusCodeEnum.Success,
