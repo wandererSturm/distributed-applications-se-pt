@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using PS.ApplicationServices.Interfaces;
 using PS.ApplicationServices.Messaging;
 using PS.ApplicationServices.Messaging.Requests.Platforms;
+using PS.ApplicationServices.Messaging.Responses.OperatingSystem;
 using PS.ApplicationServices.Messaging.Responses.Platforms;
+using PS.Infrastructure.Messaging.Requests.Platforms;
 using PS.Infrastructure.Messaging.Responses.Platforms;
 
 namespace PS.WebApiService.Controllers

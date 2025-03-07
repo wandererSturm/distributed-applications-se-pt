@@ -56,7 +56,7 @@ namespace PS.WebApiService.Controllers
         /// <param name="userName"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        [HttpPut]
+        [HttpPost]
         [ProducesResponseType(typeof(AuthenticationResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         //[Route("CleintLogin")]
@@ -67,10 +67,10 @@ namespace PS.WebApiService.Controllers
             {
                 return Unauthorized();
             }
-            return Ok(await Task.FromResult(new AuthenticationResponse(res.Token)));
+            return Ok(await Task.FromResult(new AuthenticationResponse(res.Token, res.Id, res.Email)));
         }
 
-        [HttpPost]
+        [HttpPut]
         [ProducesResponseType(typeof(RegistrationResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         //[Route("CleintRegister")]
