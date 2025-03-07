@@ -14,6 +14,6 @@ namespace PS.Data.Entities
         public DateTime? ReleaseDate { get; set; }
 
         [ForeignKey("OperatingSystem")]
-        required public int OperatingSystemr { get; set; }        
+        required public int OperatingSystem { get; set; }        
     }
 }

@@ -10,10 +10,13 @@ namespace PS.Infrastructure.Messaging.Responses.Authentications
     public class AuthenticationResponse : ServiceResponseBase
     {
         public string Token { get; set; }
-
-        public AuthenticationResponse(string token)
+        public string Id { get; set; }
+        public string Email { get; set; }
+        public AuthenticationResponse(string token, string id, string email)
         {
             Token = token;
+            Id = id;
+            Email = email;
         }
     }
 }

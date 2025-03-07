@@ -57,6 +57,7 @@ namespace PS.ApplicationServices.Implementations
             {
                 return new()
                 {
+                    Id = "",
                     StatusCode = BusinessStatusCodeEnum.InvalidUserName,
                     Token = ""
                 };
@@ -64,7 +65,8 @@ namespace PS.ApplicationServices.Implementations
             if (await _userManager.CheckPasswordAsync(user, password) == false)
             {
                 return new()
-                { 
+                {
+                    Id = "",
                     StatusCode = BusinessStatusCodeEnum.InvalidPassword,
                     Token = ""
                 };
@@ -85,6 +87,8 @@ namespace PS.ApplicationServices.Implementations
             return new()
             {
                 StatusCode = BusinessStatusCodeEnum.Success,
+                Id = user.Id,
+                Email = user.Email,
                 Token = token
             };
 

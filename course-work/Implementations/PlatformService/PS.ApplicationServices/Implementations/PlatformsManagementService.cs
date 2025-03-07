@@ -49,7 +49,7 @@ namespace PS.ApplicationServices.Implementations
                 Description = request.Platform.Description,
                 ReleaseDate = request.Platform.ReleaseDate,
                 Version = request.Platform.Version,
-                OperatingSystemr = request.Platform.PlatformOperatingSystem //request.Platform.PlatformOperatingSystem,
+                OperatingSystem = request.Platform.PlatformOperatingSystem //request.Platform.PlatformOperatingSystem,
 
             };
             _unitOfWork.Platforms.Insert(newPlatform);
@@ -91,7 +91,7 @@ namespace PS.ApplicationServices.Implementations
                 Name = platform.Name,
                 Description = platform.Description,
                 Id = platform.Id,
-                PlatformOperatingSystem = platform.OperatingSystemr,
+                PlatformOperatingSystem = platform.OperatingSystem,
                 Version = platform.Version ?? "",
                 ReleaseDate = platform.ReleaseDate,
             });           
@@ -111,7 +111,7 @@ namespace PS.ApplicationServices.Implementations
                     Name = platform.Name,
                     Description = platform.Description,
                     Id = platform.Id,
-                    PlatformOperatingSystem = platform.OperatingSystemr,
+                    PlatformOperatingSystem = platform.OperatingSystem,
                     Version= platform.Version ?? "",
                     ReleaseDate = platform.ReleaseDate,                   
                 });
@@ -131,7 +131,7 @@ namespace PS.ApplicationServices.Implementations
                     Name = platform.Name,
                     Description = platform.Description,
                     Id = platform.Id,
-                    PlatformOperatingSystem = platform.OperatingSystemr,
+                    PlatformOperatingSystem = platform.OperatingSystem,
                     Version = platform.Version ?? "",
                     ReleaseDate = platform.ReleaseDate,
                 });

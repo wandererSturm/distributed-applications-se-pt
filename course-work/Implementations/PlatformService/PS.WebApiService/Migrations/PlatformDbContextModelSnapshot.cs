@@ -138,10 +138,10 @@ namespace PS.WebApiService.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("OperatingSystemId")
+                    b.Property<int>("OperatingSystem")
                         .HasColumnType("integer");
 
-                    b.Property<int>("OperatingSystemr")
+                    b.Property<int?>("OperatingSystemId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime?>("ReleaseDate")

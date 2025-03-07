@@ -98,7 +98,7 @@ namespace PS.ApplicationServices.Implementations
 
             var operatingSystem = await _unitOfWork.OperatingSystems.GetByIdAsync(request.Id);
 
-
+            if (operatingSystem != null) { 
             response.OperatingSystems.Add(new()
             {
                 Id = operatingSystem.Id,
@@ -108,6 +108,7 @@ namespace PS.ApplicationServices.Implementations
                 PacketManager = operatingSystem.PacketManager,
                 Version = operatingSystem.Version
             });
+            }
 
 
             return response;

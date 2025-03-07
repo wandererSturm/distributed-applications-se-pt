@@ -15,7 +15,7 @@ namespace PS.Repositories.Implementations
 
         public override async Task<IEnumerable<Platform>> GetAllAsync()
         {
-            return await SoftDeleteQueryFilter(this.DbSet, -1).Include("SupportedOperatingSystems").ToListAsync();
+            return await SoftDeleteQueryFilter(this.DbSet, -1).ToListAsync();
         }
     }
 }
