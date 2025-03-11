@@ -12,7 +12,7 @@ namespace PS.Repositories.Interfaces
     {
 
         Task<IEnumerable<T>> GetAllAsync();
-        Task<IEnumerable<T>> GetByOffsetAsync(int offset, int count);
+        Task<(int, IEnumerable<T>)> GetByOffsetAsync(int offset, int count);
 
         Task<T> GetByIdAsync(int id);
 
