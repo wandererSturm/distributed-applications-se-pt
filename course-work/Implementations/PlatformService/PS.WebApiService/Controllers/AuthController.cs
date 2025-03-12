@@ -60,7 +60,7 @@ namespace PS.WebApiService.Controllers
         [ProducesResponseType(typeof(AuthenticationResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         //[Route("CleintLogin")]
-        public async Task<IActionResult> CleintLogin(string userName, string password)
+        public async Task<IActionResult> ClientLogin(string userName, string password)
         {
             var res = await _authService.Login(userName, password);
             if (res.Token.Length == 0)
@@ -74,11 +74,10 @@ namespace PS.WebApiService.Controllers
         [ProducesResponseType(typeof(RegistrationResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         //[Route("CleintRegister")]
-        public async Task<IActionResult> CleintRegister(RegistrationRequest request, string role)
+        public async Task<IActionResult> ClientRegister(RegistrationRequest request, string role)
         {
             var res = await _authService.RegistrationAsync(request, role);
            
-            
             return Ok(await Task.FromResult(res));
         }
     }
