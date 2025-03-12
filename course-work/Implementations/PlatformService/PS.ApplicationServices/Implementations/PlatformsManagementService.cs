@@ -123,7 +123,9 @@ namespace PS.ApplicationServices.Implementations
         public async Task<GetPlatformResponse> GetPlatformsByOffsetAsync(GetPlatformRequestOffset request)
         {
             GetPlatformResponse response = new() { Platforms = new() };
-            var platforms = await _unitOfWork.Platforms.GetByOffsetAsync(request.Offset, request.Count);
+            IEnumerable<Platform> platforms;
+            int count = 0;
+           (count, platforms) = await _unitOfWork.Platforms.GetByOffsetAsync(request.Offset, request.Count);
             foreach (var platform in platforms)
             {
                 response.Platforms.Add(new()
@@ -136,6 +138,7 @@ namespace PS.ApplicationServices.Implementations
                     ReleaseDate = platform.ReleaseDate,
                 });
             }
+            response.Total = count;
             return response;
         }
     }

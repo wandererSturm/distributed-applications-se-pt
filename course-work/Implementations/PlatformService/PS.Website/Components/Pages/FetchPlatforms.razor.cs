@@ -26,7 +26,7 @@ namespace PS.Website.Components.Pages
         {
             if (_platforms == null)
             {
-                (_platforms, _platformsCount) = await GetPlatformsAsync(count: 10, offset: 0);
+                (_platforms, _platformsCount) = await GetPlatformsAsync(count: request.PageSize, offset: request.PageNumber);
             }
             return await Task.FromResult(request.ApplyTo(_platforms));
         }
@@ -47,13 +47,13 @@ namespace PS.Website.Components.Pages
         private async Task<(List<Platform>, int totalCount)> GetPlatformsAsync(int count, int offset)
         {
             var client = new PlatformsService.PlatformsServiceClient(Channel);
-            List<Platform> platforms = (await client.GetPlatformsAsync(new PlatformRequest()
-            {
-                Id = 0,
-                Count = 0,
-                Offset = 0
-            })).Platforms.ToList();
-            int totalCount = 40;
+            GetPlatformResponse response = await client.GetPlatformsAsync(new PlatformRequest()
+            {                
+                Count = count,
+                Offset = offset
+            });
+            List<Platform> platforms = response.Platforms.ToList();
+            int totalCount = response.Total;
             return (platforms, totalCount);
 
         }

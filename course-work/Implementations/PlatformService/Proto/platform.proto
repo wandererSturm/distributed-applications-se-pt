@@ -10,7 +10,8 @@ service PlatformsService {
 }
 
 message GetPlatformResponse {
-  repeated Platform platforms = 1;
+  int32 total = 1;	
+  repeated Platform platforms = 2;
 }
 
 message PlatformRequest{

@@ -12,6 +12,7 @@ namespace PS.ApplicationServices.Messaging.Responses.Platforms
     public class GetPlatformResponse: ServiceResponseBase
     {
 
+        public int Total { get; set; }
         /// <summary>
         ///  Gets or sets the platforms list.
         /// </summary>
