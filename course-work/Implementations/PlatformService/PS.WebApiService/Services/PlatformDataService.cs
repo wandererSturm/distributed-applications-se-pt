@@ -1,9 +1,8 @@
-﻿using Google.Protobuf.WellKnownTypes;
-using Grpc.Core;
+﻿using Grpc.Core;
 using Platforms.gRPC;
 using PS.ApplicationServices.Interfaces;
 using PS.ApplicationServices.Messaging;
-using System.Collections.Generic;
+
 namespace PS.WebApiService.Services
 {
     public class PlatformDataService(ILogger<PlatformDataService> logger, IPlatformManagementService platformService) : PlatformsService.PlatformsServiceBase
