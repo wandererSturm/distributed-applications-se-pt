@@ -12,14 +12,9 @@
     using PS.Infrastructure.Messaging.Responses.OperatingSystem;
     using PS.Repositories.Interfaces;
 
-    public class CommandManagementService : BaseManagementService, ICommandManagementService
+    public class CommandManagementService(ILogger<CommandManagementService> logger, IUnitOfWork unitOfWork) : BaseManagementService(logger), ICommandManagementService
     {
-        private readonly IUnitOfWork _unitOfWork;
-
-        public CommandManagementService(ILogger<CommandManagementService> logger, IUnitOfWork unitOfWork) : base(logger)
-        {
-            _unitOfWork = unitOfWork;
-        }
+        private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
         public async Task<CreateCommandResponse> CreateCommandAsync(CreateCommandRequest request)
         {
