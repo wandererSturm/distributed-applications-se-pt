@@ -12,8 +12,7 @@
     using PS.Infrastructure.Messaging.Responses.OperatingSystem;
     using PS.Repositories.Interfaces;
 
-    public class CommandsManagementService(ILogger<CommandsManagementService> logger, IUnitOfWork unitOfWork)
-        : BaseManagementService(logger), ICommandManagementService
+    public class CommandManagementService(ILogger<CommandManagementService> logger, IUnitOfWork unitOfWork) : BaseManagementService(logger), ICommandManagementService
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
@@ -162,7 +161,7 @@
             return response;
         }
 
-        public async Task<GetCommandResponse> GetOperatingSystemByIdAsync(GetCommandRequest request)
+        public async Task<GetCommandResponse> GetCommandByIdAsync(GetCommandRequest request)
         {
             GetCommandResponse response = new() { Commands = new() };
 

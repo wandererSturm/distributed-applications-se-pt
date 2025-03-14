@@ -126,6 +126,7 @@ namespace PS.WebApiService
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IPlatformManagementService, PlatformsManagementService>();            
             builder.Services.AddScoped<IOperatingSystemManagementService, OperatingSystemManagementService>();
+            //builder.Services.AddScoped<ICommandManagementService, CommandManagementService>();
             builder.Services.AddSingleton<IJwtAuthenticationManager>(new JwtAuthenticationManager(tokenKey));
 
 
@@ -139,6 +140,15 @@ namespace PS.WebApiService
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+                app.Use(async (context, next) =>
+                {
+                    if (context.Request.Path == "/")
+                    {
+                        context.Response.Redirect("/swagger/index.html");
+                        return;
+                    }
+                    await next();
+                });
             }
 
             app.UseHttpsRedirection();
