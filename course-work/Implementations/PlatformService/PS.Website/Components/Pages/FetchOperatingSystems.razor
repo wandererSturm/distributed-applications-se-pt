@@ -1,0 +1,44 @@
+﻿@page "/fetchoperatingsystems"
+@using Platforms.gRPC
+<PageTitle>Operating Systems</PageTitle>
+
+<h1>Operating Systems</h1>
+@if (_operatingSystems == null)
+{
+    <p><em>Loading...</em></p>
+}else{
+    <Grid TItem="Platforms.gRPC.OperatingSystem"
+          AllowFiltering="true"
+          AllowPaging="true"
+          AllowSorting="true"
+          AutoHidePaging="true"
+          Class="table table-hover table-bordered table-striped"
+          DataProvider="OperatingSystemDataProvider"
+          PageSize="3"
+          PageSizeSelectorVisible="true"
+          PageSizeSelectorItems="@(new int[] { 5,2,2 })"
+          Responsive="true">
+
+        <GridColumns>
+            <GridColumn TItem="Platforms.gRPC.OperatingSystem" HeaderText="Id" PropertyName="Id" SortKeySelector="item => item.Id">
+                @context.Id
+            </GridColumn>
+            <GridColumn TItem="Platforms.gRPC.OperatingSystem" HeaderText="Name" PropertyName="Name" SortKeySelector="item => item.Name">
+                @context.Name
+            </GridColumn>
+            <GridColumn TItem="Platforms.gRPC.OperatingSystem" HeaderText="Description" PropertyName="Designation" SortKeySelector="item => item.Description">
+                @context.Description
+            </GridColumn>
+            <GridColumn TItem="Platforms.gRPC.OperatingSystem" HeaderText="Version" PropertyName="Version" SortKeySelector="item => item.Version">
+                @context.Version
+            </GridColumn>
+            <GridColumn TItem="Platforms.gRPC.OperatingSystem" HeaderText="PacketManager" PropertyName="PacketManager" SortKeySelector="item => item.PacketManager">
+                @context.PacketManager
+            </GridColumn>
+            <GridColumn TItem="Platforms.gRPC.OperatingSystem" HeaderText="LTS" PropertyName="LTS" SortKeySelector="item => item.IsLts">
+                @context.IsLts
+            </GridColumn>
+        </GridColumns>
+
+    </Grid>
+}

@@ -9,15 +9,43 @@ service PlatformsService {
   rpc GetPlatforms (PlatformRequest) returns (GetPlatformResponse);
 }
 
+service OperatingSystemService {
+  rpc GetOperatingSystems (OperatingSystemRequest) returns (GetOperatingSystemResponse);
+}
+
 message GetPlatformResponse {
   int32 total = 1;	
   repeated Platform platforms = 2;
 }
 
+message GetOperatingSystemResponse {
+  int32 total = 1;	
+  repeated OperatingSystem operatingSystem = 2;
+}
+
+
 message PlatformRequest{
 	int32 id = 1;
 	int32 offset = 2;
 	int32 count = 3;
+}
+
+message  OperatingSystemRequest{
+	int32 id = 1;
+	int32 offset = 2;
+	int32 count = 3;
+}
+
+message OperatingSystem {
+  int32 statuscode = 1;
+  string message = 2;
+  int32 id = 3;
+  string name = 4;
+  string description = 5;
+  string version = 6;
+  bool isLts = 7;
+  string packet_manager = 8;
+  int32 platform_operatingSystem = 9;
 }
 
 message Platform {

@@ -64,8 +64,8 @@ namespace PS.ApplicationServices.Implementations
             _unitOfWork.OperatingSystems.Delete(operatingSystem);
             await _unitOfWork.SaveChangesAsync();
 
-            return new() 
-            { 
+            return new()
+            {
                 StatusCode = BusinessStatusCodeEnum.Success
             };
         }
@@ -98,19 +98,42 @@ namespace PS.ApplicationServices.Implementations
 
             var operatingSystem = await _unitOfWork.OperatingSystems.GetByIdAsync(request.Id);
 
-            if (operatingSystem != null) { 
-            response.OperatingSystems.Add(new()
+            if (operatingSystem != null)
             {
-                Id = operatingSystem.Id,
-                Name = operatingSystem.Name,
-                Description = operatingSystem.Description,
-                IsLTS = operatingSystem.IsLTS,
-                PacketManager = operatingSystem.PacketManager,
-                Version = operatingSystem.Version
-            });
+                response.OperatingSystems.Add(new()
+                {
+                    Id = operatingSystem.Id,
+                    Name = operatingSystem.Name,
+                    Description = operatingSystem.Description,
+                    IsLTS = operatingSystem.IsLTS,
+                    PacketManager = operatingSystem.PacketManager,
+                    Version = operatingSystem.Version
+                });
             }
 
 
+            return response;
+        }
+        public async Task<GetOperatingSystemResponse> GetOperatingSystemByOffsetAsync(GetPlatformRequestOffset request)
+        {
+            GetOperatingSystemResponse response = new() { OperatingSystems = new() };
+            IEnumerable<Data.Entities.OperatingSystem> operatingSystems;
+            int count = 0;
+            (count, operatingSystems) = await _unitOfWork.OperatingSystems.GetByOffsetAsync(request.Offset, request.Count);
+            foreach (var operatingSystem in operatingSystems)
+            {
+                response.OperatingSystems.Add(new()
+                {
+                    Id = operatingSystem.Id,
+                    Name = operatingSystem.Name,
+                    Description = operatingSystem.Description,
+                    IsLTS = operatingSystem.IsLTS,
+                    PacketManager = operatingSystem.PacketManager,
+                    Version = operatingSystem.Version                        
+  
+                });
+            }
+            response.Total = count;
             return response;
         }
     }

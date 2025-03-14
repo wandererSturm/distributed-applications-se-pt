@@ -13,6 +13,7 @@ namespace PS.ApplicationServices.Messaging.Responses.OperatingSystem
     public class GetOperatingSystemResponse: ServiceResponseBase
     {
 
+        public int Total { get; set; }
         /// <summary>
         ///  Gets or sets the platforms list.
         /// </summary>

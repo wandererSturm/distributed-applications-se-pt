@@ -160,7 +160,8 @@ namespace PS.WebApiService
             app.UseGrpcWeb();
 
             app.MapGrpcService<PlatformDataService>().EnableGrpcWeb();
-            
+            app.MapGrpcService<OperatingSystemDataService>().EnableGrpcWeb();
+
             // app.MapHealthChecks("/healthz");
             app.MapHealthChecks("/hc", new HealthCheckOptions()
             {
